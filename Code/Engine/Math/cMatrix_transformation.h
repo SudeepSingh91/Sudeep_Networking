@@ -17,13 +17,13 @@
 			* This is an arbitrary choice; it matches Maya and standard OpenGL, and is backwards from standard Direct3D
 */
 
-#ifndef EAE6320_MATH_CMATRIX_TRANSFORMATION_H
-#define EAE6320_MATH_CMATRIX_TRANSFORMATION_H
+#ifndef MATH_CMATRIX_TRANSFORMATION_H
+#define MATH_CMATRIX_TRANSFORMATION_H
 
 // Forward Declarations
 //=====================
 
-namespace eae6320
+namespace Engine
 {
 	namespace Math
 	{
@@ -35,7 +35,7 @@ namespace eae6320
 // Class Declaration
 //==================
 
-namespace eae6320
+namespace Engine
 {
 	namespace Math
 	{
@@ -86,4 +86,4 @@ namespace eae6320
 	}
 }
 
-#endif	// EAE6320_MATH_CMATRIX_TRANSFORMATION_H
+#endif

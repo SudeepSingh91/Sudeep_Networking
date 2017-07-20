@@ -1,5 +1,5 @@
-#ifndef EAE6320_GRAPHICS_H
-#define EAE6320_GRAPHICS_H
+#ifndef GRAPHICS_H
+#define GRAPHICS_H
 
 #include "Configuration.h"
 #include "Mesh.h"
@@ -15,11 +15,11 @@
 #include "../Platform/Platform.h"
 #include "Effect.h"
 
-#if defined( EAE6320_PLATFORM_WINDOWS )
+#if defined( PLATFORM_WINDOWS )
 	#include "../Windows/Includes.h"
 #endif
 
-namespace eae6320
+namespace Engine
 {
 	namespace Graphics
 	{
@@ -52,11 +52,11 @@ namespace eae6320
 
 		struct sInitializationParameters
 		{
-#if defined( EAE6320_PLATFORM_WINDOWS )
+#if defined( PLATFORM_WINDOWS )
 			HWND mainWindow;
-	#if defined( EAE6320_PLATFORM_D3D )
+	#if defined( PLATFORM_D3D )
 			unsigned int resolutionWidth, resolutionHeight;
-	#elif defined( EAE6320_PLATFORM_GL )
+	#elif defined( PLATFORM_GL )
 			HINSTANCE thisInstanceOfTheApplication;
 	#endif
 #endif

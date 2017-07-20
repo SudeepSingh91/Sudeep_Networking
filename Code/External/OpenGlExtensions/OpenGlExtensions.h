@@ -1,29 +1,14 @@
-/*
-	This file can be used by any project that needs to use OpenGL extensions
-*/
+#ifndef OPENGLEXTENSIONS_FUNCTIONS_H
+#define OPENGLEXTENSIONS_FUNCTIONS_H
 
-#ifndef EAE6320_OPENGLEXTENSIONS_FUNCTIONS_H
-#define EAE6320_OPENGLEXTENSIONS_FUNCTIONS_H
-
-// Header Files
-//=============
-
-// The extension headers rely on GL.h
 #include "../../Engine/Graphics/OpenGL/Includes.h"
 
-// The extension headers come from https://www.opengl.org/registry/
 #include "33061/glext.h"
-#if defined(  EAE6320_PLATFORM_WINDOWS )
+#if defined(  PLATFORM_WINDOWS )
 	#include "32686/wglext.h"
 #endif
 
 #include <string>
-
-// Interface
-//==========
-
-// OpenGL Extension Declarations
-//------------------------------
 
 extern PFNGLACTIVETEXTUREPROC glActiveTexture;
 extern PFNGLATTACHSHADERPROC glAttachShader;
@@ -65,15 +50,12 @@ extern PFNGLUNIFORMBLOCKBINDINGPROC glUniformBlockBinding;
 extern PFNGLUNIFORMMATRIX4FVPROC glUniformMatrix4fv;
 extern PFNGLUSEPROGRAMPROC glUseProgram;
 extern PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointer;
-#if defined( EAE6320_PLATFORM_WINDOWS )
+#if defined( PLATFORM_WINDOWS )
 	extern PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatARB;
 	extern PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB;
 #endif
 
-// Initialization
-//---------------
-
-namespace eae6320
+namespace Engine
 {
 	namespace OpenGlExtensions
 	{
@@ -81,4 +63,4 @@ namespace eae6320
 	}
 }
 
-#endif	// EAE6320_OPENGLEXTENSIONS_FUNCTIONS_H
+#endif	

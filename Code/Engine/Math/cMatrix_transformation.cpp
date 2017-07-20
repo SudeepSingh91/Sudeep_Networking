@@ -10,7 +10,7 @@
 // Interface
 //==========
 
-eae6320::Math::cMatrix_transformation eae6320::Math::cMatrix_transformation::CreateWorldToCameraTransform(
+Engine::Math::cMatrix_transformation Engine::Math::cMatrix_transformation::CreateWorldToCameraTransform(
 	const cQuaternion& i_cameraOrientation, const cVector& i_cameraPosition )
 {
 	cMatrix_transformation transform_viewToWorld( i_cameraOrientation, i_cameraPosition );
@@ -26,20 +26,20 @@ eae6320::Math::cMatrix_transformation eae6320::Math::cMatrix_transformation::Cre
 		0.0f, 0.0f, 0.0f, 1.0f );
 }
 
-eae6320::Math::cMatrix_transformation eae6320::Math::cMatrix_transformation::CreateCameraToProjectedTransform(
+Engine::Math::cMatrix_transformation Engine::Math::cMatrix_transformation::CreateCameraToProjectedTransform(
 	const float i_fieldOfView_y, const float i_aspectRatio,
 	const float i_z_nearPlane, const float i_z_farPlane )
 {
 	const float yScale = 1.0f / std::tan( i_fieldOfView_y * 0.5f );
 	const float xScale = yScale / i_aspectRatio;
-#if defined( EAE6320_PLATFORM_D3D )
+#if defined( PLATFORM_D3D )
 	const float zDistanceScale = i_z_farPlane / ( i_z_nearPlane - i_z_farPlane );
 	return cMatrix_transformation(
 		xScale, 0.0f, 0.0f, 0.0f,
 		0.0f, yScale, 0.0f, 0.0f,
 		0.0f, 0.0f, zDistanceScale, i_z_nearPlane * zDistanceScale,
 		0.0f, 0.0f, -1.0f, 0.0f );
-#elif defined( EAE6320_PLATFORM_GL )
+#elif defined( PLATFORM_GL )
 	const float zDistanceScale = 1.0f / ( i_z_nearPlane - i_z_farPlane );
 	return cMatrix_transformation(
 		xScale, 0.0f, 0.0f, 0.0f,
@@ -52,7 +52,7 @@ eae6320::Math::cMatrix_transformation eae6320::Math::cMatrix_transformation::Cre
 // Initialization / Shut Down
 //---------------------------
 
-eae6320::Math::cMatrix_transformation::cMatrix_transformation()
+Engine::Math::cMatrix_transformation::cMatrix_transformation()
 	:
 	m_00( 1.0f ), m_10( 0.0f ), m_20( 0.0f ), m_30( 0.0f ),
 	m_01( 0.0f ), m_11( 1.0f ), m_21( 0.0f ), m_31( 0.0f ),
@@ -62,9 +62,9 @@ eae6320::Math::cMatrix_transformation::cMatrix_transformation()
 
 }
 
-eae6320::Math::cMatrix_transformation::cMatrix_transformation( const cQuaternion& i_rotation, const cVector& i_translation )
+Engine::Math::cMatrix_transformation::cMatrix_transformation( const cQuaternion& i_rotation, const cVector& i_translation )
 	:
-	m_30( i_translation.x ), m_31( i_translation.y ), m_32( i_translation.z ),
+	m_30( i_translation.x() ), m_31( i_translation.y() ), m_32( i_translation.z() ),
 	m_03( 0.0f ), m_13( 0.0f ), m_23( 0.0f ), m_33( 1.0f )
 {
 	const float _2x = i_rotation.m_x + i_rotation.m_x;
@@ -99,7 +99,7 @@ eae6320::Math::cMatrix_transformation::cMatrix_transformation( const cQuaternion
 // Initialization / Shut Down
 //---------------------------
 
-eae6320::Math::cMatrix_transformation::cMatrix_transformation(
+Engine::Math::cMatrix_transformation::cMatrix_transformation(
 	const float i_00, const float i_10, const float i_20, const float i_30,
 	const float i_01, const float i_11, const float i_21, const float i_31,
 	const float i_02, const float i_12, const float i_22, const float i_32,

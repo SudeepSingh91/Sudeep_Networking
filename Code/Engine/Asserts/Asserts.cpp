@@ -1,11 +1,11 @@
-#include "AssertS.h"
+#include "Asserts.h"
 
 #include <cstdarg>
 #include <cstdio>
 
-#ifdef EAE6320_ASSERTS_AREENABLED
+#ifdef ASSERTS_AREENABLED
 
-bool eae6320::Asserts::ShowMessageIfAssertionIsFalseAndReturnWhetherToBreak( const unsigned int i_lineNumber, const char* const i_file,
+bool Engine::Asserts::ShowMessageIfAssertionIsFalseAndReturnWhetherToBreak( const unsigned int i_lineNumber, const char* const i_file,
 	bool& io_shouldThisAssertBeIgnoredInTheFuture, const char* const i_message, ... )
 {
 	std::ostringstream message;

@@ -2,10 +2,10 @@
 	This file contains math-related functions
 */
 
-#ifndef EAE6320_MATH_FUNCTIONS_H
-#define EAE6320_MATH_FUNCTIONS_H
+#ifndef MATH_FUNCTIONS_H
+#define MATH_FUNCTIONS_H
 
-namespace eae6320
+namespace Engine
 {
 	namespace Math
 	{
@@ -25,4 +25,4 @@ namespace eae6320
 
 #include "Functions.inl"
 
-#endif	// EAE6320_MATH_FUNCTIONS_H
+#endif

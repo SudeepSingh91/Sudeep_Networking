@@ -22,18 +22,18 @@ namespace
 	ID3D11RenderTargetView* s_renderTargetView = NULL;
 	ID3D11SamplerState* s_samplerState = NULL;
 
-	eae6320::ConstantBuffer::sFrame s_Frame;
-	eae6320::ConstantBuffer::sDrawCall s_Draw;
+	Engine::ConstantBuffer::sFrame s_Frame;
+	Engine::ConstantBuffer::sDrawCall s_Draw;
 
-	eae6320::ConstantBuffer::ConstantBuffer s_FrameBuffer;
-	eae6320::ConstantBuffer::ConstantBuffer s_DrawBuffer;
+	Engine::ConstantBuffer::ConstantBuffer s_FrameBuffer;
+	Engine::ConstantBuffer::ConstantBuffer s_DrawBuffer;
 
-	eae6320::Math::cVector camPos(0.0f, 1.5f, 10.0f);
-	eae6320::Math::cQuaternion camOri;
-	eae6320::Camera::Camera s_Camera(camPos, camOri, eae6320::Math::ConvertDegreesToRadians(60.0f), 0.1f, 100.0f);
+	Engine::Math::cVector camPos(0.0f, 1.5f, 10.0f);
+	Engine::Math::cQuaternion camOri;
+	Engine::Camera::Camera s_Camera(camPos, camOri, Engine::Math::ConvertDegreesToRadians(60.0f), 0.1f, 100.0f);
 
-	std::vector<eae6320::Graphics::DrawCallData> s_MeshList;
-	std::vector<eae6320::Graphics::SpriteCallData> s_SprList;
+	std::vector<Engine::Graphics::DrawCallData> s_MeshList;
+	std::vector<Engine::Graphics::SpriteCallData> s_SprList;
 }
 
 namespace
@@ -45,7 +45,7 @@ namespace
 	bool CreateRasterizer();
 }
 
-void eae6320::Graphics::RenderFrame()
+void Engine::Graphics::RenderFrame()
 {
 	{
 		float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -59,11 +59,11 @@ void eae6320::Graphics::RenderFrame()
 			depthToClear, stencilToClear);
 	}
 
-	s_Frame.g_transform_worldToCamera = eae6320::Math::cMatrix_transformation::CreateWorldToCameraTransform(s_Camera.Ori(), s_Camera.Pos());
-	s_Frame.g_elapsedSecondCount_total = eae6320::Time::GetElapsedSecondCount_total();
+	s_Frame.g_transform_worldToCamera = Engine::Math::cMatrix_transformation::CreateWorldToCameraTransform(s_Camera.Ori(), s_Camera.Pos());
+	s_Frame.g_elapsedSecondCount_total = Engine::Time::GetElapsedSecondCount_total();
 	s_FrameBuffer.Update(reinterpret_cast<void*>(&s_Frame));
 
-	for (std::vector<eae6320::Graphics::DrawCallData>::iterator it = s_MeshList.begin(); it != s_MeshList.end(); ++it)
+	for (std::vector<Engine::Graphics::DrawCallData>::iterator it = s_MeshList.begin(); it != s_MeshList.end(); ++it)
 	{
 		it->s_mat->Bind();
 		s_Draw = it->s_drawCall;
@@ -73,7 +73,7 @@ void eae6320::Graphics::RenderFrame()
 
 	s_MeshList.clear();
 
-	for (std::vector<eae6320::Graphics::SpriteCallData>::iterator it = s_SprList.begin(); it != s_SprList.end(); ++it)
+	for (std::vector<Engine::Graphics::SpriteCallData>::iterator it = s_SprList.begin(); it != s_SprList.end(); ++it)
 	{
 		it->s_mat->Bind();
 		it->s_sprite->Draw();
@@ -84,25 +84,25 @@ void eae6320::Graphics::RenderFrame()
 		const unsigned int swapImmediately = 0;
 		const unsigned int presentNextFrame = 0;
 		const HRESULT result = s_swapChain->Present(swapImmediately, presentNextFrame);
-		EAE6320_ASSERT(SUCCEEDED(result));
+		ASSERT(SUCCEEDED(result));
 	}
 }
 
-void eae6320::Graphics::SetMesh(eae6320::Graphics::MeshData i_mesh)
+void Engine::Graphics::SetMesh(Engine::Graphics::MeshData i_mesh)
 {
-	eae6320::Math::cVector temp1(0.0f, 1.0f, 0.0f);
-	eae6320::Math::cQuaternion tempRot(eae6320::Math::ConvertDegreesToRadians(i_mesh.s_rot.y), temp1);
-	eae6320::Math::cMatrix_transformation tempMat(tempRot, i_mesh.s_pos);
-	eae6320::ConstantBuffer::sDrawCall tempDraw;
+	Engine::Math::cVector temp1(0.0f, 1.0f, 0.0f);
+	Engine::Math::cQuaternion tempRot(Engine::Math::ConvertDegreesToRadians(i_mesh.s_rot.y()), temp1);
+	Engine::Math::cMatrix_transformation tempMat(tempRot, i_mesh.s_pos);
+	Engine::ConstantBuffer::sDrawCall tempDraw;
 	tempDraw.g_transform_localToWorld = tempMat;
-	eae6320::Graphics::DrawCallData s_data;
+	Engine::Graphics::DrawCallData s_data;
 	s_data.s_mesh = i_mesh.s_mesh;
 	s_data.s_drawCall = tempDraw;
 	s_data.s_mat = i_mesh.s_mat;
 	s_MeshList.push_back(s_data);
 }
 
-void eae6320::Graphics::SetSprite(cSprite* i_spr, Materials::Material* i_mat)
+void Engine::Graphics::SetSprite(cSprite* i_spr, Materials::Material* i_mat)
 {
 	SpriteCallData temp;
 	temp.s_sprite = i_spr;
@@ -110,12 +110,12 @@ void eae6320::Graphics::SetSprite(cSprite* i_spr, Materials::Material* i_mat)
 	s_SprList.push_back(temp);
 }
 
-void eae6320::Graphics::SetCamera(eae6320::Camera::Camera i_cam)
+void Engine::Graphics::SetCamera(Engine::Camera::Camera i_cam)
 {
 	s_Camera = i_cam;
 }
 
-bool eae6320::Graphics::Initialize( const sInitializationParameters& i_initializationParameters )
+bool Engine::Graphics::Initialize( const sInitializationParameters& i_initializationParameters )
 {
 	bool wereThereErrors = false;
 	
@@ -149,7 +149,7 @@ OnExit:
 	return !wereThereErrors;
 }
 
-bool eae6320::Graphics::CleanUp()
+bool Engine::Graphics::CleanUp()
 {
 	bool wereThereErrors = false;
 
@@ -199,15 +199,15 @@ namespace
 	{
 		bool wereThereErrors = false;
 		
-		s_Frame.g_elapsedSecondCount_total = eae6320::Time::GetElapsedSecondCount_total();
-		s_Frame.g_transform_worldToCamera = eae6320::Math::cMatrix_transformation::CreateWorldToCameraTransform(s_Camera.Ori(), s_Camera.Pos());
-		s_Frame.g_transform_cameraToScreen = eae6320::Math::cMatrix_transformation::CreateCameraToProjectedTransform(s_Camera.fov(), static_cast<float>(i_resolutionWidth/i_resolutionHeight), s_Camera.nearPlaneDist(), s_Camera.farPlaneDist());
+		s_Frame.g_elapsedSecondCount_total = Engine::Time::GetElapsedSecondCount_total();
+		s_Frame.g_transform_worldToCamera = Engine::Math::cMatrix_transformation::CreateWorldToCameraTransform(s_Camera.Ori(), s_Camera.Pos());
+		s_Frame.g_transform_cameraToScreen = Engine::Math::cMatrix_transformation::CreateCameraToProjectedTransform(s_Camera.fov(), static_cast<float>(i_resolutionWidth/i_resolutionHeight), s_Camera.nearPlaneDist(), s_Camera.farPlaneDist());
 		
-		if (!s_FrameBuffer.Initialize(eae6320::ConstantBuffer::sBufferType::frameType, sizeof(eae6320::ConstantBuffer::sFrame), reinterpret_cast<void*>(&s_Frame)))
+		if (!s_FrameBuffer.Initialize(Engine::ConstantBuffer::sBufferType::frameType, sizeof(Engine::ConstantBuffer::sFrame), reinterpret_cast<void*>(&s_Frame)))
 			wereThereErrors = true;
 		s_FrameBuffer.Bind();
 
-		if (!s_DrawBuffer.Initialize(eae6320::ConstantBuffer::sBufferType::drawCallType, sizeof(eae6320::ConstantBuffer::sDrawCall), reinterpret_cast<void*>(&s_Draw)))
+		if (!s_DrawBuffer.Initialize(Engine::ConstantBuffer::sBufferType::drawCallType, sizeof(Engine::ConstantBuffer::sDrawCall), reinterpret_cast<void*>(&s_Draw)))
 			wereThereErrors = true;
 		s_DrawBuffer.Bind();
 
@@ -221,7 +221,7 @@ namespace
 		const HMODULE dontUseSoftwareRendering = NULL;
 		unsigned int flags = D3D11_CREATE_DEVICE_SINGLETHREADED;
 		{
-#ifdef EAE6320_GRAPHICS_ISDEVICEDEBUGINFOENABLED
+#ifdef GRAPHICS_ISDEVICEDEBUGINFOENABLED
 			flags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 		}
@@ -268,8 +268,8 @@ namespace
 		}
 		else
 		{
-			EAE6320_ASSERT( false );
-			eae6320::Logging::OutputError( "Direct3D failed to create a Direct3D11 device with HRESULT %#010x", result );
+			ASSERT( false );
+			Engine::Logging::OutputError( "Direct3D failed to create a Direct3D11 device with HRESULT %#010x", result );
 			return false;
 		}
 	}
@@ -287,8 +287,8 @@ namespace
 				const HRESULT result = s_swapChain->GetBuffer(bufferIndex, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer));
 				if (FAILED(result))
 				{
-					EAE6320_ASSERT(false);
-					eae6320::Logging::OutputError("Direct3D failed to get the back buffer from the swap chain with HRESULT %#010x", result);
+					ASSERT(false);
+					Engine::Logging::OutputError("Direct3D failed to get the back buffer from the swap chain with HRESULT %#010x", result);
 					goto OnExit;
 				}
 			}
@@ -297,8 +297,8 @@ namespace
 				const HRESULT result = myCont->s_direct3dDevice->CreateRenderTargetView(backBuffer, accessAllSubResources, &s_renderTargetView);
 				if (FAILED(result))
 				{
-					EAE6320_ASSERT(false);
-					eae6320::Logging::OutputError("Direct3D failed to create the render target view with HRESULT %#010x", result);
+					ASSERT(false);
+					Engine::Logging::OutputError("Direct3D failed to create the render target view with HRESULT %#010x", result);
 					goto OnExit;
 				}
 			}
@@ -326,8 +326,8 @@ namespace
 				const HRESULT result = myCont->s_direct3dDevice->CreateTexture2D(&textureDescription, noInitialData, &depthBuffer);
 				if (FAILED(result))
 				{
-					EAE6320_ASSERT(false);
-					eae6320::Logging::OutputError("Direct3D failed to create the depth buffer resource with HRESULT %#010x", result);
+					ASSERT(false);
+					Engine::Logging::OutputError("Direct3D failed to create the depth buffer resource with HRESULT %#010x", result);
 					goto OnExit;
 				}
 			}
@@ -336,8 +336,8 @@ namespace
 				const HRESULT result = myCont->s_direct3dDevice->CreateDepthStencilView(depthBuffer, noSubResources, &s_depthStencilView);
 				if (FAILED(result))
 				{
-					EAE6320_ASSERT(false);
-					eae6320::Logging::OutputError("Direct3D failed to create the depth stencil view with HRESULT %#010x", result);
+					ASSERT(false);
+					Engine::Logging::OutputError("Direct3D failed to create the depth stencil view with HRESULT %#010x", result);
 					goto OnExit;
 				}
 			}
@@ -392,8 +392,8 @@ namespace
 			const HRESULT result = myCont->s_direct3dDevice->CreateSamplerState(&samplerStateDescription, &s_samplerState);
 			if (FAILED(result))
 			{
-				EAE6320_ASSERT(false);
-				eae6320::Logging::OutputError("Direct3D failed to create a sampler state with HRESULT %#010x", result);
+				ASSERT(false);
+				Engine::Logging::OutputError("Direct3D failed to create a sampler state with HRESULT %#010x", result);
 				return false;
 			}
 		}

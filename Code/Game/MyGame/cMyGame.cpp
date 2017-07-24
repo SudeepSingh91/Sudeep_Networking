@@ -101,9 +101,9 @@ bool Engine::cMyGame::Initialize()
 	(m_meshData + 7)->s_mat = (m_meshMat + 1);
 	(m_meshData + 8)->s_mat = m_meshMat;
 	graphicsData->SetCamera(*s_Camera);
-	(m_meshData + 2)->s_pos.z((m_meshData + 2)->s_pos.z() - 24.0f);
-	(m_meshData + 6)->s_pos.z((m_meshData + 6)->s_pos.z() - 48.0f);
-	(m_meshData + 7)->s_pos.z((m_meshData + 7)->s_pos.z() - 72.0f);
+	(m_meshData + 2)->s_pos.z((m_meshData + 2)->s_pos.z() - 50.0f);
+	(m_meshData + 6)->s_pos.z((m_meshData + 6)->s_pos.z() - 100.0f);
+	(m_meshData + 7)->s_pos.z((m_meshData + 7)->s_pos.z() - 150.0f);
 	graphicsData->SetMesh(*(m_meshData + 2));
 	(m_meshData + 3)->s_pos.z((m_meshData + 3)->s_pos.z() - 20.0f);
 	(m_meshData + 3)->s_pos.x((m_meshData + 3)->s_pos.x() + 5.0f);
@@ -123,11 +123,29 @@ void Engine::cMyGame::DrawMesh()
 	
 	float offset[2] = { 0.0f, 0.0f };
 	{
-		if (UserInput::IsKeyPressed('A'))
-			offset[0] -= 4.0f;
-		if (UserInput::IsKeyPressed('D'))
-			offset[0] += 4.0f;
-		offset[1] -= 60.0f;
+		if (!Engine::Network::NetworkManager::IsServer())
+		{
+			if (UserInput::IsKeyPressed(VK_LEFT))
+			{
+				offset[0] -= 4.0f;
+			}
+			else if (UserInput::IsKeyPressed(VK_RIGHT))
+			{
+				offset[0] += 4.0f;
+			}
+		}
+		else
+		{
+			if (UserInput::IsKeyPressed('A'))
+			{
+				offset[0] -= 4.0f;
+			}
+			else if (UserInput::IsKeyPressed('D'))
+			{
+				offset[0] += 4.0f;
+			}
+		}
+		offset[1] -= 20.0f;
 	}
 	{
 		const float speed_unitsPerSecond = 0.2f;

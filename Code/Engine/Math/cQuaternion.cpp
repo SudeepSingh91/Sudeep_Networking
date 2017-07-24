@@ -1,6 +1,3 @@
-// Header Files
-//=============
-
 #include "cQuaternion.h"
 
 #include <cmath>
@@ -57,9 +54,6 @@ float Engine::Math::Dot( const cQuaternion& i_lhs, const cQuaternion& i_rhs )
 	return ( i_lhs.m_w * i_rhs.m_w ) + ( i_lhs.m_x * i_rhs.m_x ) + ( i_lhs.m_y * i_rhs.m_y ) + ( i_lhs.m_z * i_rhs.m_z );
 }
 
-// Initialization / Shut Down
-//---------------------------
-
 Engine::Math::cQuaternion::cQuaternion()
 	:
 	m_w( 1.0f ), m_x( 0.0f ), m_y( 0.0f ), m_z( 0.0f )
@@ -76,12 +70,6 @@ Engine::Math::cQuaternion::cQuaternion( const float i_angleInRadians, const cVec
 	m_y = i_axisOfRotation_normalized.y() * sin_theta_half;
 	m_z = i_axisOfRotation_normalized.z() * sin_theta_half;
 }
-
-// Implementation
-//===============
-
-// Initialization / Shut Down
-//---------------------------
 
 Engine::Math::cQuaternion::cQuaternion( const float i_w, const float i_x, const float i_y, const float i_z )
 	:

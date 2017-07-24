@@ -94,10 +94,11 @@ bool Engine::Application::cbApplication::Initialize_engine()
 		return false;
 	}
 	{
+		Graphics::GraphicsData* m_graphicsData = Graphics::GraphicsData::GetGraphicsInst();
 		Graphics::sInitializationParameters initializationParameters;
 		if ( PopulateGraphicsInitializationParameters( initializationParameters ) )
 		{
-			if ( !Graphics::Initialize( initializationParameters ) )
+			if ( !m_graphicsData->Initialize( initializationParameters ) )
 			{
 				ASSERT( false );
 				return false;
@@ -145,7 +146,9 @@ bool Engine::Application::cbApplication::CleanUp_engine()
 {
 	bool wereThereErrors = false;
 
-	if ( !Graphics::CleanUp() )
+	Graphics::GraphicsData* m_graphicsData = Graphics::GraphicsData::GetGraphicsInst();
+
+	if ( !m_graphicsData->CleanUp() )
 	{
 		wereThereErrors = true;
 		ASSERT( false );
@@ -173,5 +176,4 @@ void Engine::Application::cbApplication::OnNewFrame()
 {
 	Time::OnNewFrame();
 	DrawMesh();
-	Graphics::RenderFrame();
 }

@@ -25,6 +25,7 @@ namespace Engine
 	class cMyGame : public Application::cbApplication
 	{
 	public:
+		cMyGame();
 		virtual ~cMyGame();
 
 	private:
@@ -53,24 +54,16 @@ namespace Engine
 		virtual void DrawMesh();
 		virtual bool CleanUp();
 
-		Graphics::MeshData m1;
-		Graphics::MeshData m2;
-		Graphics::MeshData m3;
-		Graphics::MeshData m4;
-		Graphics::MeshData m5;
-		Graphics::MeshData m6;
-		Graphics::MeshData m7;
-		Graphics::MeshData m8;
-		Graphics::MeshData m9;
+		const int m_numMesh;
+		const int m_numMat;
+
+		Graphics::MeshData* m_meshData;
 		Graphics::cSprite* spr1;
 		Math::cVector* s_camPos;
-		Math::cQuaternion s_camOri;
+		Math::cQuaternion* s_camOri;
 		Camera::Camera* s_Camera;
 
-		Engine::Graphics::Materials::Material* mat1;
-		Engine::Graphics::Materials::Material* mat2;
-		Engine::Graphics::Materials::Material* mat3;
-		Engine::Graphics::Materials::Material* mat4;
+		Engine::Graphics::Materials::Material* m_meshMat;
 	};
 }
 

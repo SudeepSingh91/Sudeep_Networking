@@ -1,21 +1,13 @@
-// Header Files
-//=============
-
 #include "cMatrix_transformation.h"
 
 #include <cmath>
 #include "cQuaternion.h"
 #include "cVector.h"
 
-// Interface
-//==========
-
 Engine::Math::cMatrix_transformation Engine::Math::cMatrix_transformation::CreateWorldToCameraTransform(
 	const cQuaternion& i_cameraOrientation, const cVector& i_cameraPosition )
 {
 	cMatrix_transformation transform_viewToWorld( i_cameraOrientation, i_cameraPosition );
-	// A camera can only ever have rotation and translation
-	// and so a lot of simplifying assumptions can be made in order to create the inverse
 	return cMatrix_transformation(
 		transform_viewToWorld.m_00, transform_viewToWorld.m_01, transform_viewToWorld.m_02,
 			-( transform_viewToWorld.m_30 * transform_viewToWorld.m_00 ) - ( transform_viewToWorld.m_31 * transform_viewToWorld.m_01 ) - ( transform_viewToWorld.m_32 * transform_viewToWorld.m_02 ),
@@ -48,9 +40,6 @@ Engine::Math::cMatrix_transformation Engine::Math::cMatrix_transformation::Creat
 		0.0f, 0.0f, -1.0f, 0.0f );
 #endif
 }
-
-// Initialization / Shut Down
-//---------------------------
 
 Engine::Math::cMatrix_transformation::cMatrix_transformation()
 	:
@@ -92,12 +81,6 @@ Engine::Math::cMatrix_transformation::cMatrix_transformation( const cQuaternion&
 	m_12 = _2yz - _2xw;
 	m_22 = 1.0f - _2xx - _2yy;
 }
-
-// Implementation
-//===============
-
-// Initialization / Shut Down
-//---------------------------
 
 Engine::Math::cMatrix_transformation::cMatrix_transformation(
 	const float i_00, const float i_10, const float i_20, const float i_30,
